@@ -4,10 +4,6 @@ import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
 
-    init {
-        getNextWord()
-    }
-
     // Backing properties to be accessed by [GameFragment]
     private var _score = 0
     val score: Int
@@ -21,7 +17,12 @@ class GameViewModel : ViewModel() {
     val currentScrambledWord: String
         get() = _currentScrambledWord
 
+    private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
+
+    init {
+        getNextWord()
+    }
 
 
     /**
@@ -29,13 +30,12 @@ class GameViewModel : ViewModel() {
      * and scrambles the letters.
      */
     private fun getNextWord() {
-        val wordsList: MutableList<String> = mutableListOf()
         currentWord = allWordsList.random()
         val tempWord = currentWord.toCharArray()
         tempWord.shuffle()
 
         // Keep shuffling if tempWord order is the same as the currentWord.
-        while (tempWord.toString().equals(currentWord, false)) {
+        while (String(tempWord).equals(currentWord, true)) {
             tempWord.shuffle()
         }
 
@@ -85,7 +85,7 @@ class GameViewModel : ViewModel() {
     fun reinitializeData() {
         _score = 0
         _currentWordCount = 0
+        wordsList.clear()
         getNextWord()
-        // TODO: Clear the [wordsList]
     }
 }
