@@ -63,7 +63,7 @@ class GameViewModel : ViewModel() {
     }
 
     /**
-     * Increaes the score.
+     * Increases the score.
      */
     private fun increaseScore() {
         _score.value = (_score.value)?.plus(SCORE_INCREASE)
